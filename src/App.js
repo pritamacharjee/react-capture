@@ -1,11 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import CaptureImage from './components/CaptureImage';
+import logo from "./logo.svg";
+import "./App.css";
+import CaptureImage from "./components/CaptureImage";
 
 function App() {
   return (
     <div className="App">
-    <CaptureImage/> 
+      <CaptureImage />
     </div>
   );
 }
