@@ -235,7 +235,7 @@ const LiveDetectFace = () => {
 
           {isCapturing && (
             <div className="camera-container">
-              {/* <div className="video-container"> </div>  */}
+            
                 <video
                   ref={videoRef}
                   autoPlay
