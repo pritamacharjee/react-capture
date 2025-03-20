@@ -10,7 +10,7 @@ function App() {
       {/* <CaptureImage />   */}
       {/* <DetectFace/>   */}
       <LiveDetectFace/> 
-    </div>
+    </div> 
   );
 }
 

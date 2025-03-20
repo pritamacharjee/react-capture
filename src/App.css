@@ -98,10 +98,10 @@
 }
 
 /* 📱 Mobile Styling */
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .camera-container {
     width: 90%;
-    max-width: 350px; /* Smaller on mobile */
+    max-width: 350px; 
     aspect-ratio: 4 / 3;
   }
 
@@ -110,7 +110,7 @@
     font-size: 16px;
     padding: 10px 20px;
   }
-}
+} */
 
 .face-guide {
   position: absolute;

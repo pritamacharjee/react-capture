@@ -233,7 +233,7 @@ const LiveDetectFace = () => {
                 ref={videoRef}
                 autoPlay
                 playsInline
-                className="video-preview"
+                className="video-preview" 
               />
               <canvas ref={canvasRef} />
               {/* <div className="face-guide">
