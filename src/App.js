@@ -1,11 +1,15 @@
 import logo from "./logo.svg";
 import "./App.css";
 import CaptureImage from "./components/CaptureImage";
+import DetectFace from "./components/DetectFace";
+import LiveDetectFace from "./components/LiveDetectFace";
 
 function App() {
   return (
     <div className="App">
-      <CaptureImage />
+      {/* <CaptureImage />   */}
+      {/* <DetectFace/>   */}
+      <LiveDetectFace/> 
     </div>
   );
 }
