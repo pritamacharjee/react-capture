@@ -105,6 +105,9 @@ const LiveDetectFace = () => {
       const ctx = canvas.getContext("2d");
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+  
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       // return canvas.toDataURL("image/png");
       return canvas;
@@ -125,6 +128,10 @@ const LiveDetectFace = () => {
     const ctx = canvas.getContext("2d");
     canvas.width = videoElement.width;
     canvas.height = videoElement.height;
+    // Flip the front camera
+    // ctx.translate(canvas.width, 0);
+    // ctx.scale(-1, 1);
+
     ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "red";
     ctx.lineWidth = 2;
@@ -228,14 +235,15 @@ const LiveDetectFace = () => {
 
           {isCapturing && (
             <div className="camera-container">
-              <div className="video-container"></div>
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                className="video-preview" 
-              />
-              <canvas ref={canvasRef} />
+              {/* <div className="video-container"> </div>  */}
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  className="video-preview"
+                />
+                <canvas ref={canvasRef} />
+             
               {/* <div className="face-guide">
             <div className="face-outline"></div>
             <div className="mouth-guide"></div>
