@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import * as faceLandmarksDetection from "@tensorflow-models/face-landmarks-detection";
 import "@tensorflow/tfjs";
-import {FACE_LANDMARKS_TESSELATION} from "./../utils/constants"
+import {FACE_LANDMARKS_TESSELATION, FACE_OVER_POINTS, isMouthOpen} from "./../utils/constants"
 const LiveDetectFace = () => {
   const [image, setImage] = useState(null);
   const [isCapturing, setIsCapturing] = useState(false);
@@ -90,6 +90,7 @@ const LiveDetectFace = () => {
         if (predictions.length > 0) {
           setErrorMessage("");
           drawGuidelines(predictions, videoFrame);
+        
         } else {
           setErrorMessage("No face detected. Please upload a clear image.");
         }
@@ -143,18 +144,14 @@ const LiveDetectFace = () => {
         return;
       }
 
-      if (box) {
-        const { xMin, yMin, width, height } = box;
-        ctx.strokeStyle = "blue";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(xMin, yMin, width, height);
-      }
+      // if (box) {
+      //   const { xMin, yMin, width, height } = box;
+      //   ctx.strokeStyle = "blue";
+      //   ctx.lineWidth = 2;
+      //   ctx.strokeRect(xMin, yMin, width, height);
+      // }
 
-      // Extract mouth region (61 - 81)
-      const mouthLandmarks = [
-        61, 146, 91, 181, 84, 17, 314, 405, 321, 375, 78, 191, 95, 88, 178, 87,
-        14, 317, 402, 318, 324, 308,
-      ].map((index) => keypoints[index]);
+      
 
       // // Draw lines around mouth
       // ctx.strokeStyle = "red";
@@ -179,48 +176,7 @@ const LiveDetectFace = () => {
       //   setErrorMessage("Make sure your teeth are visible!");
       // }
     
-      const lipConnections = [
-        { start: 61, end: 146 },
-        { start: 146, end: 91 },
-        { start: 91, end: 181 },
-        { start: 181, end: 84 },
-        { start: 84, end: 17 },
-        { start: 17, end: 314 },
-        { start: 314, end: 405 },
-        { start: 405, end: 321 },
-        { start: 321, end: 375 },
-        { start: 375, end: 291 },
-        { start: 61, end: 185 },
-        { start: 185, end: 40 },
-        { start: 40, end: 39 },
-        { start: 39, end: 37 },
-        { start: 37, end: 0 },
-        { start: 0, end: 267 },
-        { start: 267, end: 269 },
-        { start: 269, end: 270 },
-        { start: 270, end: 409 },
-        { start: 409, end: 291 },
-        { start: 78, end: 95 },
-        { start: 95, end: 88 },
-        { start: 88, end: 178 },
-        { start: 178, end: 87 },
-        { start: 87, end: 14 },
-        { start: 14, end: 317 },
-        { start: 317, end: 402 },
-        { start: 402, end: 318 },
-        { start: 318, end: 324 },
-        { start: 324, end: 308 },
-        { start: 78, end: 191 },
-        { start: 191, end: 80 },
-        { start: 80, end: 81 },
-        { start: 81, end: 82 },
-        { start: 82, end: 13 },
-        { start: 13, end: 312 },
-        { start: 312, end: 311 },
-        { start: 311, end: 310 },
-        { start: 310, end: 415 },
-        { start: 415, end: 308 },
-      ];
+      // console.log("isMouthOpen",isMouthOpen(keypoints))
 
       // ctx.strokeStyle = "#00ff00";
       // ctx.lineWidth = 3;

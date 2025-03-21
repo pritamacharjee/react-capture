@@ -2556,3 +2556,102 @@ export const FACE_LANDMARKS_TESSELATION = [
   { start: 448, end: 255 },
   { start: 255, end: 339 },
 ];
+
+export const FACE_OVER_POINTS = [
+  { start: 10, end: 338 },
+  { start: 338, end: 297 },
+  { start: 297, end: 332 },
+  { start: 332, end: 284 },
+  { start: 284, end: 251 },
+  { start: 251, end: 389 },
+  { start: 389, end: 356 },
+  { start: 356, end: 454 },
+  { start: 454, end: 323 },
+  { start: 323, end: 361 },
+  { start: 361, end: 288 },
+  { start: 288, end: 397 },
+  { start: 397, end: 365 },
+  { start: 365, end: 379 },
+  { start: 379, end: 378 },
+  { start: 378, end: 400 },
+  { start: 400, end: 377 },
+  { start: 377, end: 152 },
+  { start: 152, end: 148 },
+  { start: 148, end: 176 },
+  { start: 176, end: 149 },
+  { start: 149, end: 150 },
+  { start: 150, end: 136 },
+  { start: 136, end: 172 },
+  { start: 172, end: 58 },
+  { start: 58, end: 132 },
+  { start: 132, end: 93 },
+  { start: 93, end: 234 },
+  { start: 234, end: 127 },
+  { start: 127, end: 162 },
+  { start: 162, end: 21 },
+  { start: 21, end: 54 },
+  { start: 54, end: 103 },
+  { start: 103, end: 67 },
+  { start: 67, end: 109 },
+  { start: 109, end: 10 },
+];
+
+export const FACE_LIP_POINTS = [
+  { start: 61, end: 146 },
+  { start: 146, end: 91 },
+  { start: 91, end: 181 },
+  { start: 181, end: 84 },
+  { start: 84, end: 17 },
+  { start: 17, end: 314 },
+  { start: 314, end: 405 },
+  { start: 405, end: 321 },
+  { start: 321, end: 375 },
+  { start: 375, end: 291 },
+  { start: 61, end: 185 },
+  { start: 185, end: 40 },
+  { start: 40, end: 39 },
+  { start: 39, end: 37 },
+  { start: 37, end: 0 },
+  { start: 0, end: 267 },
+  { start: 267, end: 269 },
+  { start: 269, end: 270 },
+  { start: 270, end: 409 },
+  { start: 409, end: 291 },
+  { start: 78, end: 95 },
+  { start: 95, end: 88 },
+  { start: 88, end: 178 },
+  { start: 178, end: 87 },
+  { start: 87, end: 14 },
+  { start: 14, end: 317 },
+  { start: 317, end: 402 },
+  { start: 402, end: 318 },
+  { start: 318, end: 324 },
+  { start: 324, end: 308 },
+  { start: 78, end: 191 },
+  { start: 191, end: 80 },
+  { start: 80, end: 81 },
+  { start: 81, end: 82 },
+  { start: 82, end: 13 },
+  { start: 13, end: 312 },
+  { start: 312, end: 311 },
+  { start: 311, end: 310 },
+  { start: 310, end: 415 },
+  { start: 415, end: 308 },
+];
+
+export function isMouthOpen(faceLandmarks) {
+  console.log("")
+  try {
+    const upperLip = faceLandmarks[13]; // Upper lip center
+    const lowerLip = faceLandmarks[14]; // Lower lip center
+
+    // Calculate vertical distance
+    const lipDistance = Math.abs(lowerLip.y - upperLip.y);
+
+    console.log("Lip distance:", lipDistance);
+
+    return lipDistance > 40; // Adjust threshold as needed
+  } catch (error) {
+    return false;
+  }
+}
