@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import * as faceLandmarksDetection from "@tensorflow-models/face-landmarks-detection";
 import "@tensorflow/tfjs";
-
+import {FACE_LANDMARKS_TESSELATION} from "./../utils/constants"
 const LiveDetectFace = () => {
   const [image, setImage] = useState(null);
   const [isCapturing, setIsCapturing] = useState(false);
@@ -178,8 +178,7 @@ const LiveDetectFace = () => {
       // } else {
       //   setErrorMessage("Make sure your teeth are visible!");
       // }
-
-
+    
       const lipConnections = [
         { start: 61, end: 146 },
         { start: 146, end: 91 },
@@ -222,16 +221,18 @@ const LiveDetectFace = () => {
         { start: 310, end: 415 },
         { start: 415, end: 308 },
       ];
-  
-      ctx.strokeStyle = "red";
-      ctx.lineWidth = 2;
+
+      // ctx.strokeStyle = "#00ff00";
+      // ctx.lineWidth = 3;
+      ctx.strokeStyle = "#C0C0C070";
+      ctx.lineWidth = 1;
       ctx.beginPath();
-  
-      lipConnections.forEach(({ start, end }) => {
+
+      FACE_LANDMARKS_TESSELATION.forEach(({ start, end }) => {
         ctx.moveTo(keypoints[start].x, keypoints[start].y);
         ctx.lineTo(keypoints[end].x, keypoints[end].y);
       });
-  
+
       ctx.stroke();
     });
   };
@@ -319,6 +320,26 @@ const LiveDetectFace = () => {
 
     ctx.stroke();
   }
+  function isTeethVisible(landmarks) {
+    try {
+      const upperLip = landmarks[13]; // Upper lip center
+      const lowerLip = landmarks[14]; // Lower lip center
+
+      // Calculate Euclidean distance
+      const lipGap = Math.sqrt(
+        Math.pow(lowerLip.x - upperLip.x, 2) +
+          Math.pow(lowerLip.y - upperLip.y, 2)
+      );
+
+      // Threshold: Adjust based on testing
+      return lipGap > 5; // If gap > 5 pixels, assume teeth are visible
+    } catch (error) {
+      return false;
+    }
+  }
+
+  // Example usage inside a face detection loop
+
   return (
     <div className="container">
       {isLoading ? (
