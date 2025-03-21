@@ -107,7 +107,7 @@ const LiveDetectFace = () => {
       canvas.height = videoRef.current.videoHeight;
       ctx.translate(canvas.width, 0);
       ctx.scale(-1, 1);
-  
+
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       // return canvas.toDataURL("image/png");
       return canvas;
@@ -166,18 +166,73 @@ const LiveDetectFace = () => {
       // });
       // ctx.closePath();
       // ctx.stroke();
-      keypoints.forEach(({ x, y }) => {
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, 2 * Math.PI);
-        ctx.fillStyle = "red";
-        ctx.fill();
-      });
+      // keypoints.forEach(({ x, y }) => {
+      //   ctx.beginPath();
+      //   ctx.arc(x, y, 2, 0, 2 * Math.PI);
+      //   ctx.fillStyle = "red";
+      //   ctx.fill();
+      // });
 
       // if (mouthLandmarks.length >= 10) {
       //   setErrorMessage("");
       // } else {
       //   setErrorMessage("Make sure your teeth are visible!");
       // }
+
+
+      const lipConnections = [
+        { start: 61, end: 146 },
+        { start: 146, end: 91 },
+        { start: 91, end: 181 },
+        { start: 181, end: 84 },
+        { start: 84, end: 17 },
+        { start: 17, end: 314 },
+        { start: 314, end: 405 },
+        { start: 405, end: 321 },
+        { start: 321, end: 375 },
+        { start: 375, end: 291 },
+        { start: 61, end: 185 },
+        { start: 185, end: 40 },
+        { start: 40, end: 39 },
+        { start: 39, end: 37 },
+        { start: 37, end: 0 },
+        { start: 0, end: 267 },
+        { start: 267, end: 269 },
+        { start: 269, end: 270 },
+        { start: 270, end: 409 },
+        { start: 409, end: 291 },
+        { start: 78, end: 95 },
+        { start: 95, end: 88 },
+        { start: 88, end: 178 },
+        { start: 178, end: 87 },
+        { start: 87, end: 14 },
+        { start: 14, end: 317 },
+        { start: 317, end: 402 },
+        { start: 402, end: 318 },
+        { start: 318, end: 324 },
+        { start: 324, end: 308 },
+        { start: 78, end: 191 },
+        { start: 191, end: 80 },
+        { start: 80, end: 81 },
+        { start: 81, end: 82 },
+        { start: 82, end: 13 },
+        { start: 13, end: 312 },
+        { start: 312, end: 311 },
+        { start: 311, end: 310 },
+        { start: 310, end: 415 },
+        { start: 415, end: 308 },
+      ];
+  
+      ctx.strokeStyle = "red";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+  
+      lipConnections.forEach(({ start, end }) => {
+        ctx.moveTo(keypoints[start].x, keypoints[start].y);
+        ctx.lineTo(keypoints[end].x, keypoints[end].y);
+      });
+  
+      ctx.stroke();
     });
   };
   const setCanvasSize = () => {
@@ -209,13 +264,67 @@ const LiveDetectFace = () => {
 
     loadModel();
   }, []);
+  function drawLips(ctx, landmarks) {
+    const lipConnections = [
+      { start: 61, end: 146 },
+      { start: 146, end: 91 },
+      { start: 91, end: 181 },
+      { start: 181, end: 84 },
+      { start: 84, end: 17 },
+      { start: 17, end: 314 },
+      { start: 314, end: 405 },
+      { start: 405, end: 321 },
+      { start: 321, end: 375 },
+      { start: 375, end: 291 },
+      { start: 61, end: 185 },
+      { start: 185, end: 40 },
+      { start: 40, end: 39 },
+      { start: 39, end: 37 },
+      { start: 37, end: 0 },
+      { start: 0, end: 267 },
+      { start: 267, end: 269 },
+      { start: 269, end: 270 },
+      { start: 270, end: 409 },
+      { start: 409, end: 291 },
+      { start: 78, end: 95 },
+      { start: 95, end: 88 },
+      { start: 88, end: 178 },
+      { start: 178, end: 87 },
+      { start: 87, end: 14 },
+      { start: 14, end: 317 },
+      { start: 317, end: 402 },
+      { start: 402, end: 318 },
+      { start: 318, end: 324 },
+      { start: 324, end: 308 },
+      { start: 78, end: 191 },
+      { start: 191, end: 80 },
+      { start: 80, end: 81 },
+      { start: 81, end: 82 },
+      { start: 82, end: 13 },
+      { start: 13, end: 312 },
+      { start: 312, end: 311 },
+      { start: 311, end: 310 },
+      { start: 310, end: 415 },
+      { start: 415, end: 308 },
+    ];
 
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+
+    lipConnections.forEach(({ start, end }) => {
+      ctx.moveTo(landmarks[start].x, landmarks[start].y);
+      ctx.lineTo(landmarks[end].x, landmarks[end].y);
+    });
+
+    ctx.stroke();
+  }
   return (
     <div className="container">
       {isLoading ? (
         <div className="loaderContainer">
           <div className="loader"></div>
-          <p className="loaderText">Loading App... Please wait</p>
+          {/* <p className="loaderText">Loading App... Please wait</p> */}
         </div>
       ) : (
         <>
@@ -235,15 +344,14 @@ const LiveDetectFace = () => {
 
           {isCapturing && (
             <div className="camera-container">
-            
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  className="video-preview"
-                />
-                <canvas ref={canvasRef} />
-             
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                className="video-preview"
+              />
+              <canvas ref={canvasRef} />
+
               {/* <div className="face-guide">
             <div className="face-outline"></div>
             <div className="mouth-guide"></div>
